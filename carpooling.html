@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carpooling Vehicle Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+    <header class="bg-blue-600 text-white p-4">
+        <h1 class="text-2xl font-bold">Carpooling Vehicle Management System</h1>
+    </header>
+
+    <main class="container mx-auto mt-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Card for registering a carpooler -->
+            <section class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold mb-4">Register Carpooler</h2>
+                <form id="register-form" class="space-y-4">
+                    <input type="text" id="carpooler-name" placeholder="Carpooler Name" class="p-2 border rounded w-full" required>
+                    <input type="text" id="departing-location" placeholder="Departing Location" class="p-2 border rounded w-full" required>
+                    <input type="text" id="destination" placeholder="Destination" class="p-2 border rounded w-full" required>
+                    <button type="submit" class="bg-blue-600 text-white p-2 rounded">Register</button>
+                </form>
+            </section>
+
+            <!-- Card for selecting registered cars -->
+            <section class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-semibold mb-4">Select Registered Cars</h2>
+                <select id="car-selection" class="p-2 border rounded w-full mb-4">
+                    <option value="">-- Select a Vehicle --</option>
+                    <div id="vehicle-options" class="space-y-2"></div>
+                </select>
+                <button id="select-car" class="bg-blue-600 text-white p-2 rounded" disabled>Select Car</button>
+            </section>
+        </div>
+
+        <section class="bg-white rounded-lg shadow-md p-6 mt-6">
+            <h2 class="text-xl font-semibold mb-4">Available Vehicles</h2>
+            <div id="vehicle-list" class="space-y-4">
+                <!-- Vehicles will be listed here -->
+            </div>
+        </section>
+
+        <section class="bg-white rounded-lg shadow-md p-6 mt-6">
+            <h2 class="text-xl font-semibold mb-4">Add New Vehicle</h2>
+            <form id="vehicle-form" class="space-y-4">
+                <input type="text" id="vehicle-name" placeholder="Vehicle Name" class="p-2 border rounded w-full" required>
+                <input type="text" id="vehicle-type" placeholder="Vehicle Type" class="p-2 border rounded w-full" required>
+                <input type="text" id="vehicle-capacity" placeholder="Capacity" class="p-2 border rounded w-full" required>
+                <button type="submit" class="bg-blue-600 text-white p-2 rounded">Add Vehicle</button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        const vehicleList = [];
+        const vehicleSelect = document.getElementById('vehicle-options');
+
+        // Add new vehicle
+        document.getElementById('vehicle-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const vehicleName = document.getElementById('vehicle-name').value;
+            const vehicleType = document.getElementById('vehicle-type').value;
+            const vehicleCapacity = document.getElementById('vehicle-capacity').value;
+
+            const vehicleItem = {
+                name: vehicleName,
+                type: vehicleType,
+                capacity: vehicleCapacity
+            };
+            vehicleList.push(vehicleItem);
+
+            // Add to available vehicles list
+            const vehicleListElement = document.createElement('div');
+            vehicleListElement.className = 'bg-gray-200 p-4 rounded shadow';
+            vehicleListElement.innerHTML = `<h3 class="font-semibold">${vehicleName}</h3>
+                                            <p>Type: ${vehicleType}</p>
+                                            <p>Capacity: ${vehicleCapacity}</p>`;
+            document.getElementById('vehicle-list').appendChild(vehicleListElement);
+
+            // Update vehicle select options
+            const option = document.createElement('option');
+            option.value = vehicleName;
+            option.textContent = vehicleName;
+            vehicleSelect.appendChild(option);
+
+            // Clear the form
+            document.getElementById('vehicle-form').reset();
+        });
+
+        // Register carpooler
+        document.getElementById('register-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const carpoolerName = document.getElementById('carpooler-name').value;
+            const departingLocation = document.getElementById('departing-location').value;
+            const destination = document.getElementById('destination').value;
+
+            alert(`Carpooler Registered: ${carpoolerName}\nFrom: ${departingLocation}\nTo: ${destination}`);
+
+            // Clear the form
+            document.getElementById('register-form').reset();
+        });
+
+        // Enable select car button
+        vehicleSelect.addEventListener('change', function() {
+            document.getElementById('select-car').disabled = !this.value;
+        });
+    </script>
+
+</body>
+</html>

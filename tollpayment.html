@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toll Payment Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+
+    <header class="bg-green-600 text-white p-4 w-full text-center">
+        <h1 class="text-3xl font-bold">Toll Payment Management System</h1>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center">
+        <div class="flex justify-center">
+            <!-- Toll Payment Card -->
+            <section class="bg-white rounded-lg shadow-md p-6 w-full max-w-md">
+                <h2 class="text-xl font-semibold mb-4">Toll Payment</h2>
+                <form id="payment-form" class="space-y-4">
+                    <input type="text" id="toll-location" placeholder="Toll Location" class="p-2 border rounded w-full" required>
+                    <select id="vehicle-type" class="p-2 border rounded w-full" required>
+                        <option value="">-- Select Vehicle Type --</option>
+                        <option value="car">Car</option>
+                        <option value="pickup">Pickup Truck</option>
+                        <option value="heavy">Heavy Vehicle</option>
+                    </select>
+                    <input type="text" id="vehicle-number" placeholder="Vehicle Number" class="p-2 border rounded w-full" required>
+                    <input type="text" id="toll-amount" placeholder="Toll Amount" class="p-2 border rounded w-full" required>
+                    <button type="submit" class="bg-green-600 text-white p-2 rounded w-full">Pay Toll</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <!-- Transaction History Section -->
+    <section class="bg-white rounded-lg shadow-md p-6 mt-6 w-full max-w-md mx-auto">
+        <h2 class="text-xl font-semibold mb-4">Transaction History</h2>
+        <div id="transaction-list" class="space-y-4">
+            <!-- Transactions will be displayed here -->
+        </div>
+    </section>
+
+    <script>
+        const transactions = [];
+
+        // Toll Payment
+        document.getElementById('payment-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const tollLocation = document.getElementById('toll-location').value;
+            const vehicleType = document.getElementById('vehicle-type').value;
+            const vehicleNumber = document.getElementById('vehicle-number').value;
+            const tollAmount = document.getElementById('toll-amount').value;
+
+            const transaction = {
+                tollLocation: tollLocation,
+                vehicleType: vehicleType,
+                vehicleNumber: vehicleNumber,
+                tollAmount: tollAmount,  // Now it's a string from the text input
+                date: new Date().toLocaleString()
+            };
+            transactions.push(transaction);
+
+            // Update Transaction History
+            const transactionElement = document.createElement('div');
+            transactionElement.className = 'bg-gray-200 p-4 rounded shadow';
+            transactionElement.innerHTML = `<p><strong>Location:</strong> ${transaction.tollLocation}</p>
+                                             <p><strong>Vehicle Type:</strong> ${transaction.vehicleType}</p>
+                                             <p><strong>Vehicle:</strong> ${transaction.vehicleNumber}</p>
+                                             <p><strong>Amount:</strong> $${transaction.tollAmount}</p>
+                                             <p><strong>Date:</strong> ${transaction.date}</p>`;
+            document.getElementById('transaction-list').appendChild(transactionElement);
+
+            // Clear the payment form
+            document.getElementById('payment-form').reset();
+        });
+    </script>
+
+</body>
+</html>

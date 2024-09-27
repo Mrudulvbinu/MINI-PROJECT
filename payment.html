@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: #fff;
+            padding: 2em;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        h2 {
+            margin-top: 0;
+        }
+        .form-group {
+            margin-bottom: 1em;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5em;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.8em;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 1em;
+            border: none;
+            border-radius: 4px;
+            background-color: #28a745;
+            color: #fff;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #218838;
+        }
+        .payment-methods {
+            margin-bottom: 1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>FINE PAYMENT</h2>
+
+
+        <!-- Payment Challan Number -->
+        <div class="form-group">
+            <label for="challanNumber">Payment Challan Number</label>
+            <input type="text" id="challanNumber" name="challanNumber" required>
+        </div>
+
+        <form id="payment-form" action="/process_payment" method="POST">
+            <div class="form-group">
+                <label for="paymentMethod">Payment Method</label>
+                <select id="paymentMethod" name="paymentMethod" required>
+                    <option value="" disabled selected>Select payment method</option>
+                    <option value="credit_card">Credit/Debit Card</option>
+                    <option value="upi">UPI</option>
+                    <option value="net_banking">Net Banking</option>
+                    <!-- Add other payment methods as needed -->
+                </select>
+            </div>
+
+            <!-- Credit/Debit Card Payment -->
+            <div id="card-details" class="payment-methods">
+                <div class="form-group">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="text" id="cardNumber" name="cardNumber">
+                </div>
+                <div class="form-group">
+                    <label for="cardExpiry">Expiry Date (MM/YY)</label>
+                    <input type="text" id="cardExpiry" name="cardExpiry" placeholder="MM/YY">
+                </div>
+                <div class="form-group">
+                    <label for="cardCvc">CVC</label>
+                    <input type="text" id="cardCvc" name="cardCvc">
+                </div>
+            </div>
+
+            <!-- UPI Payment -->
+            <div id="upi-details" class="payment-methods" style="display:none;">
+                <div class="form-group">
+                    <!--label for="upiId">UPI ID</label>
+                    <input type="text" id="upiId" name="upiId"-->
+                    <img src="c:\Users\deron\Downloads\gpay.png">
+                    
+                </div>
+            </div>
+
+            <!-- Net Banking Payment -->
+            <div id="net-banking-details" class="payment-methods" style="display:none;">
+                <div class="form-group">
+                    <label for="bank">Bank</label>
+                    <select id="bank" name="bank">
+                        <option value="" disabled selected>Select Bank</option>
+                        <option value="bank1">Bank 1</option>
+                        <option value="bank2">Bank 2</option>
+                        <!-- Add other banks as needed -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input type="text" id="amount" name="amount" required>
+            </div>
+
+            <div class="form-group">
+                <button type="submit">
+                    <a href="upi://pay?pa=mrudulbinu@okicici&pn=Mrudul%20Binu&am=10&cu=INR">Pay Now
+
+                </button></a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('paymentMethod').addEventListener('change', function() {
+            var method = this.value;
+            document.getElementById('card-details').style.display = method === 'credit_card' ? 'block' : 'none';
+            document.getElementById('upi-details').style.display = method === 'upi' ? 'block' : 'none';
+            document.getElementById('net-banking-details').style.display = method === 'net_banking' ? 'block' : 'none';
+        });
+    </script>
+</body>
+</html>
